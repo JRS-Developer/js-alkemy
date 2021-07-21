@@ -11,11 +11,11 @@ const handleError = (res, error) => {
 };
 
 const getBudget = async (req, res) => {
-	let { limit, order } = req.query;
+	let { limit, order, by = "type" } = req.query;
 	let sql = `SELECT * FROM ${table.name} `;
 
 	if (order) {
-		sql += `ORDER BY type ${order} `;
+		sql += `ORDER BY ${by} ${order} `;
 	}
 
 	if (limit) {
