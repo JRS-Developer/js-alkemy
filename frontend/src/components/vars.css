@@ -1,0 +1,12 @@
+:root {
+	--primary: hsla(256, 82%, 55%, 1);
+	--secondary: hsla(191, 86%, 52%, 1);
+	--error: hsla(335, 84%, 55%, 1);
+	--success: hsla(164, 100%, 36%, 1);
+	--warning: hsla(40, 89%, 60%, 1);
+	--gradient: linear-gradient(114.44deg, #7433ff 0%, #ffa3fd 100%);
+	--text-title: hsla(241, 37%, 12%, 1);
+	--text-body: hsla(248, 16%, 35%, 1);
+	--label: hsla(235, 14%, 50%, 1);
+	--background: hsla(233, 45%, 98%, 1);
+}

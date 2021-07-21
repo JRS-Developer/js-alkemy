@@ -1,0 +1,24 @@
+@import "./vars.css";
+
+.navbar {
+	padding: 1rem;
+}
+
+.navbar ul {
+	list-style: none;
+}
+
+.navbar_right {
+	display: flex;
+	justify-content: flex-end;
+	gap: 1rem;
+}
+
+.navbar__link:active,
+.navbar__link:visited {
+	color: var(--text-body);
+}
+
+.active {
+	color: var(--secondary) !important;
+}
