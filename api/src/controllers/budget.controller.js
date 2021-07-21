@@ -5,30 +5,46 @@ const table = {
 	columns: ["amount", "type", "concept", "date"],
 };
 
-const getTotal = (results) => {
-	return results
-		.reduce((previous, current) => {
-			return previous + current.amount;
-		}, 0)
-		.toFixed(2);
-};
-
-const handleError = () => {
+const handleError = (res, error) => {
+	console.log(error);
 	res.status(500).json({ error: "There is an error with the server" });
 };
 
 const getBudget = async (req, res) => {
-	const sql = `SELECT * FROM ${table.name}`;
-	await con.query(sql, (error, results) => {
+	let { limit, order } = req.query;
+	let sql = `SELECT * FROM ${table.name} `;
+
+	if (order) {
+		sql += `ORDER BY type ${order} `;
+	}
+
+	if (limit) {
+		limit = parseInt(limit);
+		sql += `LIMIT ${con.escape(limit)} `;
+	}
+
+	await con.query(sql, async (error, results) => {
 		if (error) {
-			handleError();
+			handleError(res, error);
 			return;
 		}
 		if (results.length == 0) {
 			res.json({ message: "There are no results" });
 			return;
 		}
-		res.json({ total: getTotal(results), results: [results] });
+		res.json(results);
+	});
+};
+
+const getBudgetTotal = async (_req, res) => {
+	const sql = `SELECT SUM(amount) FROM ${table.name}`;
+	await con.query(sql, (error, results) => {
+		if (error) {
+			handleError(res, error);
+			return;
+		}
+		const total = results[0]["SUM(amount)"].toFixed(2);
+		res.json({ total });
 	});
 };
 
@@ -43,7 +59,7 @@ const insertBudget = async (req, res) => {
 	const sql = `INSERT INTO ${table.name} (${table.columns}) VALUES (?,?,?,?)`;
 	await con.query(sql, [amount, type, concept, date], (error) => {
 		if (error) {
-			handleError();
+			handleError(res, error);
 			return;
 		}
 	});
@@ -57,7 +73,7 @@ const updateBudget = async (req, res) => {
 
 	await con.query(sql, [amount, concept, date, id], (error) => {
 		if (error) {
-			handleError();
+			handleError(res, error);
 			return;
 		}
 	});
@@ -70,7 +86,7 @@ const deleteBudget = async (req, res) => {
 	const sql = `DELETE FROM ${table.name} WHERE id = ?`;
 	await con.query(sql, [id], (error) => {
 		if (error) {
-			handleError();
+			handleError(res, error);
 			return;
 		}
 	});
@@ -79,6 +95,7 @@ const deleteBudget = async (req, res) => {
 
 module.exports = {
 	getBudget,
+	getBudgetTotal,
 	insertBudget,
 	updateBudget,
 	deleteBudget,
