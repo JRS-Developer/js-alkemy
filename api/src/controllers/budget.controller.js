@@ -8,7 +8,6 @@ const table = {
 const getTotal = (results) => {
 	return results
 		.reduce((previous, current) => {
-			if (current.type === "expense") current.amount *= -1;
 			return previous + current.amount;
 		}, 0)
 		.toFixed(2);
@@ -34,7 +33,13 @@ const getBudget = async (req, res) => {
 };
 
 const insertBudget = async (req, res) => {
-	const { amount, type, concept, date } = req.body;
+	const { type, concept, date } = req.body;
+	let { amount } = req.body;
+
+	if (type === "expense" && amount > 0) {
+		amount *= -1;
+	}
+
 	const sql = `INSERT INTO ${table.name} (${table.columns}) VALUES (?,?,?,?)`;
 	await con.query(sql, [amount, type, concept, date], (error) => {
 		if (error) {
