@@ -19,7 +19,7 @@ const Budget = () => {
 		<>
 			<h1>Personal Budget</h1>
 			<h2>Actual balance: {total}</h2>
-			<BudgetList />
+			<BudgetList limit={10} />
 		</>
 	);
 };

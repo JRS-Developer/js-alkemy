@@ -1,22 +1,24 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { URI } from "../data";
+import BudgetItem from "./BudgetItem";
 
-const BudgetList = () => {
+const BudgetList = ({ limit = false, editable = false }) => {
 	const [Operations, setOperations] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
-	const getOperations = async () => {
-		const { data } = await axios.get(
-			`${URI}/budget?limit=10&order=desc&by=id`
-		);
+	const getOperations = useCallback(async () => {
+		let search = `${URI}/budget?order=desc&by=id`;
+		if (limit) search += `&limit=${limit}`;
+
+		const { data } = await axios.get(search);
 		setOperations(data);
 		setIsLoading(false);
-	};
+	}, [limit]);
 
 	useEffect(() => {
 		getOperations();
-	}, []);
+	}, [getOperations]);
 
 	return (
 		<div>
@@ -28,14 +30,14 @@ const BudgetList = () => {
 					<h2>Loading...</h2>
 				) : (
 					Operations.map((operation) => {
-						const { id, concept, amount, type, date } = operation;
+						const { id } = operation;
 						return (
-							<li key={id}>
-								<h3>{concept}</h3>
-								<p>{amount}</p>
-								<p>{type}</p>
-								<p>{date}</p>
-							</li>
+							<BudgetItem
+								operation={operation}
+								key={id}
+								editable={editable}
+								getOperations={getOperations}
+							/>
 						);
 					})
 				)}

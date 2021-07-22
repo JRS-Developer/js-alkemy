@@ -4,6 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import axios from "axios";
 import { format } from "fecha";
+import { toast } from "react-toastify";
+import { handleError } from "./handlers";
 
 const formInitialState = {
 	concept: "",
@@ -22,8 +24,9 @@ const OperationForm = ({ id = false }) => {
 		};
 		try {
 			await axios.post(`${URI}/budget`, data);
+			toast.success("Operation added correctly");
 		} catch (error) {
-			console.log(error);
+			handleError(error);
 		}
 	};
 
