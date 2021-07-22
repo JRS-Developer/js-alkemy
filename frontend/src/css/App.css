@@ -4,7 +4,7 @@
 	font-family: "Rubik", sans-serif;
 	src: "./fonts/Rubik-Regular.ttf", "./fonts/Rubik-SemiBold.ttf";
 }
-@import "./components/vars.css";
+@import "./vars.css";
 
 body {
 	background: var(--background);
