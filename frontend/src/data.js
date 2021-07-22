@@ -14,6 +14,19 @@ const Links = [
 	},
 ];
 
+const inputs = [
+	{
+		name: "Concept",
+		id: "concept",
+		type: "text",
+	},
+	{
+		name: "Amount",
+		id: "amount",
+		type: "number",
+	},
+];
+
 const URI = "http://localhost:4000/api";
 
-export { Links, URI };
+export { Links, URI, inputs };
