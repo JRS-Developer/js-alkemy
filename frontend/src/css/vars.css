@@ -9,4 +9,6 @@
 	--text-body: hsla(248, 16%, 35%, 1);
 	--label: hsla(235, 14%, 50%, 1);
 	--background: hsla(233, 45%, 98%, 1);
+	--white: var(--background);
+	--shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
 }

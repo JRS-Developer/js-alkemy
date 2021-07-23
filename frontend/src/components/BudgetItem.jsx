@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { URI } from "../data";
 import "react-datepicker/dist/react-datepicker.css";
 import { handleError } from "./handlers";
+import styles from "../css/BudgetItem.module.css";
+import { FiEdit, FiDelete, FiSave } from "react-icons/fi";
 
 const BudgetItem = ({
 	operation: { id, concept, amount, type, date },
@@ -51,7 +53,11 @@ const BudgetItem = ({
 	};
 
 	return (
-		<li>
+		<li
+			className={`${styles.budgetItem} ${
+				type === "income" ? styles.success : styles.error
+			} ${editable && styles["budgetItem--editable"]}`}
+		>
 			{isEditing ? (
 				<>
 					<input
@@ -64,26 +70,42 @@ const BudgetItem = ({
 						defaultValue={amount}
 						ref={amountRef}
 					/>
-					<p title={"The type is not editable"}>{type}</p>
+					<p
+						title={"The type is not editable"}
+						className={styles.text_capitalize}
+					>
+						{type}
+					</p>
 					<DatePicker
 						selected={startDate}
 						onChange={(date) => setStartDate(date)}
 						showTimeSelect
+						className={styles.budgetItem__datepicker}
 						dateFormat="MMMM d, yyyy h:mm aa"
 					/>
-					<p onClick={updateItem}>Save</p>
+					<div className={styles.budgetItem__save}>
+						<button onClick={updateItem} title="Save">
+							<FiSave />
+						</button>
+					</div>
 				</>
 			) : (
 				<>
-					<h3>{concept}</h3>
-					<p>{amount}$</p>
-					<p>{type}</p>
-					<p>{format(new Date(date))}</p>
+					<p title="Concept">{concept}</p>
+					<p title="Amount">{amount}$</p>
+					<p className={styles.text_capitalize} title="Type">
+						{type}
+					</p>
+					<p title="Date">{format(new Date(date))}</p>
 					{editable && (
-						<>
-							<p onClick={() => editItem()}>Edit</p>
-							<p onClick={() => deleteItem()}>Delete</p>
-						</>
+						<div className={styles.budgetItem__options}>
+							<button onClick={() => editItem()} title="Edit">
+								<FiEdit />
+							</button>
+							<button onClick={() => deleteItem()} title="Delete">
+								<FiDelete />
+							</button>
+						</div>
 					)}
 				</>
 			)}

@@ -1,13 +1,15 @@
 import OperationForm from "./OperationForm";
-import BudgetLIst from "./BudgetLIst";
+import BudgetList from "./BudgetList";
+import styles from "../css/Operations.module.css";
 const Operations = () => {
 	return (
-		<>
-			<h1>Add a operation</h1>
+		<div className={styles.operations}>
 			<OperationForm />
-			<h1>Operations List</h1>
-			<BudgetLIst editable={true} />
-		</>
+			<div className={styles.operations__header}>
+				<h1>Operations List</h1>
+				<BudgetList editable={true} />
+			</div>
+		</div>
 	);
 };
 

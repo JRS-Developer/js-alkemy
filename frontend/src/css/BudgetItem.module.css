@@ -1,0 +1,77 @@
+@import "./vars.css";
+
+.budgetItem {
+	display: grid;
+	align-items: center;
+	grid-template-columns: repeat(4, minmax(100px, 300px));
+	text-align: center;
+	gap: 1rem;
+	box-shadow: var(--shadow);
+	padding: 0.5rem;
+	border-radius: 10px;
+}
+
+.budgetItem--editable {
+	grid-template-columns: repeat(5, minmax(100px, 300px));
+}
+
+.budgetItem button {
+	cursor: pointer;
+	border: 0;
+	border-radius: 100%;
+	padding: 5px;
+}
+
+.budgetItem button:hover {
+	transform: scale(1.05);
+}
+
+.budgetItem__options {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+}
+
+.success {
+	background-color: var(--success);
+	color: var(--white);
+}
+
+.error {
+	background-color: var(--error);
+	color: var(--white);
+}
+
+.text_capitalize {
+	text-transform: capitalize;
+}
+
+.budgetItem__datepicker {
+	max-width: 100px;
+}
+
+@media screen and (max-width: 640px) {
+	.budgetItem {
+		grid-template-columns: repeat(2, minmax(100px, 300px));
+	}
+
+	.budgetItem button {
+		padding: 5px;
+		border-radius: 10px;
+		width: 100%;
+		margin: 0 1rem;
+	}
+
+	.budgetItem__options {
+		justify-content: space-around;
+		grid-column: 1/3;
+	}
+
+	.budgetItem__save {
+		grid-column: 1/3;
+	}
+
+	.budgetItem__save button {
+		margin: 0;
+	}
+}

@@ -1,0 +1,13 @@
+.operations {
+	display: grid;
+	grid-gap: 1rem;
+	gap: 1rem;
+	grid-template-columns: 1fr 1fr;
+}
+
+.operations__header {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	text-align: center;
+}

@@ -1,0 +1,27 @@
+.budgetList {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	list-style: none;
+	padding: 0 1rem;
+	gap: 1rem;
+}
+
+.budgetList__header {
+	display: grid;
+	grid-gap: 1rem;
+	gap: 1rem;
+	align-items: center;
+	grid-template-columns: repeat(4, minmax(100px, 300px));
+	text-align: center;
+}
+
+.budgetList__header--editable {
+	grid-template-columns: repeat(5, minmax(100px, 300px));
+}
+
+@media screen and (max-width: 640px) {
+	.budgetList__header {
+		display: none;
+	}
+}
