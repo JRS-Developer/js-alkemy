@@ -1,30 +1,57 @@
 import React from "react";
-import styles from "../css/BudgetList.module.css";
+import { FaCaretDown } from "react-icons/fa";
+import { useOperationContext } from "../Context";
+import styles from "../css/BudgetListHeader.module.css";
+
+const sectionsList = [
+	{ name: "Concept", type: "data" },
+	{ name: "Amount", type: "data" },
+	{ name: "Type", type: "data" },
+	{ name: "Date", type: "data" },
+];
 
 const BudgetListHeader = ({ editable }) => {
+	const { filter, setFilter } = useOperationContext();
+
+	const changeOrder = (id) => {
+		const { order } = filter;
+		const newOrder = {
+			by: id,
+			order: order === "desc" ? "asc" : "desc",
+		};
+		setFilter(newOrder);
+	};
+
+	const handleClick = (e) => {
+		if (editable) {
+			const { id } = e.target;
+			changeOrder(id);
+		}
+	};
+
 	return (
 		<li
 			className={`${styles.budgetList__header} ${
 				editable && styles["budgetList__header--editable"]
 			}`}
 		>
-			<p>
-				<b>Concept</b>
-			</p>
-			<p>
-				<b>Amount</b>
-			</p>
-			<p>
-				<b>Type</b>
-			</p>
-			<p>
-				<b>Date</b>
-			</p>
-			{editable && (
-				<p>
-					<b>Options</b>
-				</p>
-			)}
+			{sectionsList.map((section, index) => {
+				const { name } = section;
+				return (
+					<p
+						key={`${index}-${name}`}
+						onClick={handleClick}
+						id={name}
+						className={`${styles.budgetList__header__item} ${
+							name === filter.by && styles["active"]
+						} ${filter.order === "asc" && styles["revert"]}`}
+					>
+						{name}
+						{editable && name === filter.by && <FaCaretDown />}
+					</p>
+				);
+			})}
+			{editable && <p id={"Options"}>Options</p>}
 		</li>
 	);
 };

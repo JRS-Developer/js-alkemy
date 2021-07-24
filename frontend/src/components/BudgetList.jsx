@@ -1,33 +1,17 @@
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
-import { URI } from "../data";
+import { useEffect } from "react";
 import BudgetItem from "./BudgetItem";
 import styles from "../css/BudgetList.module.css";
 import BudgetListHeader from "./BudgetListHeader";
+import { useOperationContext } from "../Context";
 
-const BudgetList = ({
-	limit = false,
-	editable = false,
-	order = "desc",
-	by = "id",
-}) => {
-	const [Operations, setOperations] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-
-	const getOperations = useCallback(async () => {
-		let search = `${URI}/budget?order=${order}&by=${by}`;
-		if (limit) search += `&limit=${limit}`;
-
-		const { data } = await axios.get(search);
-		if (Array.isArray(data)) {
-			setOperations(data);
-		}
-		setIsLoading(false);
-	}, [limit, order, by]);
+const BudgetList = ({ editable = false }) => {
+	const { operations, isLoading, setIsLoading } = useOperationContext();
 
 	useEffect(() => {
-		getOperations();
-	}, [getOperations]);
+		if (Array.isArray(operations) && isLoading) {
+			setIsLoading(false);
+		}
+	}, [operations, isLoading, setIsLoading]);
 
 	return (
 		<ul className={styles.budgetList}>
@@ -36,20 +20,19 @@ const BudgetList = ({
 			) : (
 				<BudgetListHeader editable={editable} />
 			)}
-			{!isLoading && Operations.length === 0 ? (
-				<h2>There are no results</h2>
-			) : (
-				Operations.map((operation) => {
+			{Array.isArray(operations) ? (
+				operations.map((operation) => {
 					const { id, concept } = operation;
 					return (
 						<BudgetItem
 							operation={operation}
 							key={`${id}-${concept}`}
 							editable={editable}
-							getOperations={getOperations}
 						/>
 					);
 				})
+			) : (
+				<h2>There are no results</h2>
 			)}
 		</ul>
 	);

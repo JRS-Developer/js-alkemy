@@ -4,25 +4,28 @@ import Navbar from "./components/Navbar";
 import { Links } from "./data";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { OperationProvider } from "./Context";
 
 const App = () => {
 	return (
 		<Router>
 			<Navbar />
 			<ToastContainer />
-			<Switch>
-				{Links.map((link, index) => {
-					const { path, component } = link;
-					return (
-						<Route
-							key={index}
-							exact
-							path={path}
-							component={component}
-						/>
-					);
-				})}
-			</Switch>
+			<OperationProvider>
+				<Switch>
+					{Links.map((link, index) => {
+						const { path, component } = link;
+						return (
+							<Route
+								key={index}
+								exact
+								path={path}
+								component={component}
+							/>
+						);
+					})}
+				</Switch>
+			</OperationProvider>
 		</Router>
 	);
 };

@@ -1,7 +1,13 @@
 import OperationForm from "./OperationForm";
 import BudgetList from "./BudgetList";
 import styles from "../css/Operations.module.css";
+import { useEffect } from "react";
+import { useOperationContext } from "../Context";
 const Operations = () => {
+	const { getOperations } = useOperationContext();
+	useEffect(() => {
+		getOperations();
+	}, [getOperations]);
 	return (
 		<div className={styles.operations}>
 			<OperationForm />

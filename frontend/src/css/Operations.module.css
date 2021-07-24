@@ -11,3 +11,9 @@
 	gap: 2rem;
 	text-align: center;
 }
+
+@media screen and (max-width: 1280px) {
+	.operations {
+		grid-template-columns: 1fr;
+	}
+}

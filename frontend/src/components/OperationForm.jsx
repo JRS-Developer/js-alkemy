@@ -7,6 +7,7 @@ import { format } from "fecha";
 import { toast } from "react-toastify";
 import { handleError } from "./handlers";
 import styles from "../css/OperationForm.module.css";
+import { useOperationContext } from "../Context";
 
 const formInitialState = {
 	concept: "",
@@ -17,6 +18,7 @@ const formInitialState = {
 const OperationForm = ({ id = false }) => {
 	const [startDate, setStartDate] = useState(new Date());
 	const [form, setForm] = useState(formInitialState);
+	const { getOperations } = useOperationContext();
 
 	const addOperation = async () => {
 		const data = {
@@ -26,6 +28,8 @@ const OperationForm = ({ id = false }) => {
 		try {
 			await axios.post(`${URI}/budget`, data);
 			toast.success("Operation added correctly");
+			setForm(formInitialState);
+			getOperations();
 		} catch (error) {
 			handleError(error);
 		}

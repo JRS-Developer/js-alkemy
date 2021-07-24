@@ -1,0 +1,42 @@
+@import "vars.css";
+
+.budgetList__header {
+	display: grid;
+	grid-gap: 1rem;
+	gap: 1rem;
+	align-items: center;
+	grid-template-columns: repeat(4, minmax(100px, 300px));
+	text-align: center;
+}
+
+.budgetList__header__item {
+	display: flex;
+	justify-content: left;
+	padding-left: 1rem;
+	align-items: center;
+	cursor: pointer;
+}
+
+.budgetList__header__item svg {
+	margin-left: auto;
+}
+
+.budgetList__header__item.active {
+	border: 1px solid var(--primary);
+	border-radius: 10px;
+	box-shadow: var(--shadow);
+}
+
+.budgetList__header__item.revert svg {
+	transform: rotate(180deg);
+}
+
+.budgetList__header--editable {
+	grid-template-columns: repeat(5, minmax(100px, 300px));
+}
+
+@media screen and (max-width: 640px) {
+	.budgetList__header {
+		display: none;
+	}
+}

@@ -8,14 +8,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { handleError } from "./handlers";
 import styles from "../css/BudgetItem.module.css";
 import { FiEdit, FiDelete, FiSave } from "react-icons/fi";
+import { useOperationContext } from "../Context";
 
 const BudgetItem = ({
 	operation: { id, concept, amount, type, date },
 	editable,
-	getOperations,
 }) => {
 	const [startDate, setStartDate] = useState(new Date(date));
 	const [isEditing, setIsEditing] = useState(false);
+	const { getOperations } = useOperationContext();
 	const conceptRef = useRef(null);
 	const amountRef = useRef(null);
 
