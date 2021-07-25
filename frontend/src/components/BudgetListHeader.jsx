@@ -42,8 +42,10 @@ const BudgetListHeader = ({ editable }) => {
 						key={`${index}-${name}`}
 						onClick={handleClick}
 						id={name}
-						className={`${styles.budgetList__header__item} ${
-							name === filter.by && styles["active"]
+						className={`${
+							editable && styles.budgetList__header__item
+						} ${
+							name === filter.by && editable && styles["active"]
 						} ${filter.order === "asc" && styles["revert"]}`}
 					>
 						{name}

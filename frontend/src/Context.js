@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback, useEffect } from "react";
 import { URI } from "./data";
 import axios from "axios";
 
@@ -20,9 +20,14 @@ const OperationProvider = ({ children }) => {
 
 			const { data } = await axios.get(search);
 			setOperations(data);
+			setIsLoading(false);
 		},
 		[filter]
 	);
+
+	useEffect(() => {
+		setIsLoading(true);
+	}, []);
 
 	return (
 		<OperationContext.Provider
