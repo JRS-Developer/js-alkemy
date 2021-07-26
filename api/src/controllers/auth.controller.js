@@ -13,7 +13,14 @@ const table = {
 const authUser = async (req, res) => {
 	const { email, password } = req.body;
 	if (!email || !password)
-		return res.status(400).send("Please provide all the credentials");
+		return res
+			.status(401)
+			.json({ message: "Please provide all the credentials" });
+
+	if (!isValidEmail(email))
+		return res
+			.status(401)
+			.json({ message: "The provided email is invalid" });
 
 	try {
 		const lowerEmail = email.toLowerCase();
@@ -21,7 +28,7 @@ const authUser = async (req, res) => {
 		const [rows] = await con.promise().query(sql, [lowerEmail]);
 
 		if (rows.length === 0)
-			return res.status(400).json({
+			return res.status(401).json({
 				message: "There is not any user registered with that email",
 			});
 
@@ -37,7 +44,7 @@ const authUser = async (req, res) => {
 						password: hashPassword,
 					}),
 			  })
-			: res.status(400).json({ message: "The credentials are invalid" });
+			: res.status(401).json({ message: "The credentials are invalid" });
 	} catch (error) {
 		handleError(res, error);
 		return;
@@ -46,16 +53,22 @@ const authUser = async (req, res) => {
 
 const createUser = async (req, res) => {
 	const { email, password, password2 } = req.body;
+
 	if (!email || !password || !password2) {
-		return res.status(400).send("Please provide all the credentials");
+		return res.status(401).send("Please provide all the credentials");
 	}
 
 	if (password !== password2) {
-		return res.status(400).json({ message: "The password must match" });
+		return res.status(401).json({ message: "The password must match" });
 	}
 
+	if (!isValidEmail(email))
+		return res
+			.status(401)
+			.json({ message: "The provided email is invalid" });
+
 	if (await checkUserIsRegistered(email)) {
-		return res.status(400).json({
+		return res.status(401).json({
 			message: "There is already an user registered with that email",
 		});
 	}
@@ -86,6 +99,12 @@ const checkUserIsRegistered = async (email) => {
 
 const checkUserPassword = async (password, hash) => {
 	return await bcrypt.compare(password, hash);
+};
+
+const isValidEmail = (email) => {
+	const regexEmail =
+		/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return regexEmail.test(String(email).toLowerCase());
 };
 
 const createToken = (data) => {

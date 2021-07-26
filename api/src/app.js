@@ -4,6 +4,7 @@ const cors = require("cors");
 const { PORT } = require("./config");
 const budgetRouter = require("./routes/budget");
 const authRouter = require("./routes/auth");
+const checkToken = require("./middlewares/Token");
 
 const app = express();
 // config
@@ -16,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // routes
-app.use("/api/budget", budgetRouter);
+app.use("/api/budget", checkToken, budgetRouter);
 app.use("/api/auth", authRouter);
 
 module.exports = app;
