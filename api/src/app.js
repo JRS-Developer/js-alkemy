@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const { PORT } = require("./config");
 const budgetRouter = require("./routes/budget");
+const authRouter = require("./routes/auth");
 
 const app = express();
 // config
@@ -16,5 +17,6 @@ app.use(cors());
 
 // routes
 app.use("/api/budget", budgetRouter);
+app.use("/api/auth", authRouter);
 
 module.exports = app;

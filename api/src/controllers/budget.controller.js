@@ -1,13 +1,9 @@
 const con = require("../database");
+const { handleError } = require("../handlers");
 
 const table = {
 	name: "budget",
 	columns: ["amount", "type", "concept", "date"],
-};
-
-const handleError = (res, error) => {
-	console.log(error);
-	res.status(500).json({ error: "There is an error with the server" });
 };
 
 const getBudget = (req, res) => {
