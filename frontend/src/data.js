@@ -43,6 +43,6 @@ const inputs = [
 ];
 
 // const URI = "https://sheltered-plains-98989.herokuapp.com/api";
-const URI = "http://localhost:4000/api";
+const URI = "https://sheltered-plains-98989.herokuapp.com/api";
 
 export { Links, AuthLinks, URI, inputs };
