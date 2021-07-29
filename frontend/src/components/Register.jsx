@@ -5,6 +5,7 @@ import { URI } from "../data";
 import AuthForm from "./AuthForm";
 import { handleError } from "./handlers";
 import * as Yup from "yup";
+import styles from "../css/AuthForm.module.css";
 
 const props = {
 	initialValues: { email: "", password: "", confirmPassword: "" },
@@ -73,7 +74,7 @@ const Register = () => {
 	};
 
 	return (
-		<div>
+		<div className={styles.authForm__container}>
 			<h1>Register</h1>
 			<AuthForm {...props} handleSubmit={handleSubmit} />
 		</div>

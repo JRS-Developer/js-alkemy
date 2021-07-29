@@ -18,7 +18,9 @@ const BudgetList = ({ editable = false }) => {
 			{isLoading ? (
 				<h2>Loading...</h2>
 			) : (
-				<BudgetListHeader editable={editable} />
+				operations.length > 0 && (
+					<BudgetListHeader editable={editable} />
+				)
 			)}
 			{Array.isArray(operations) ? (
 				operations.map((operation) => {

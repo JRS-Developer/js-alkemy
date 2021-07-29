@@ -5,6 +5,7 @@ import { handleError } from "./handlers";
 import AuthForm from "./AuthForm";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import styles from "../css/AuthForm.module.css";
 
 const props = {
 	initialValues: { email: "", password: "" },
@@ -57,7 +58,7 @@ const Login = () => {
 	};
 
 	return (
-		<div>
+		<div className={styles.authForm__container}>
 			<h1>Login</h1>
 			<AuthForm {...props} handleSubmit={handleSubmit} />
 		</div>

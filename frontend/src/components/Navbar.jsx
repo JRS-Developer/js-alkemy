@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useAppContext } from "../Context";
 import styles from "../css/Navbar.module.css";
 import { AuthLinks, Links } from "../data";
+import LogOutButton from "./LogOutButton";
 
 const Navbar = () => {
 	const { authToken } = useAppContext();
@@ -46,6 +47,7 @@ const Navbar = () => {
 								</li>
 							);
 					  })}
+				{authToken ? <LogOutButton /> : null}
 			</ul>
 		</nav>
 	);

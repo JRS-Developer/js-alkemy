@@ -1,6 +1,10 @@
 const con = require("../database");
 const { handleError } = require("../handlers");
 
+const escapeSansQuotes = (connection, criterion) => {
+	return connection.escape(criterion).match(/^'(\w+)'$/)[1];
+};
+
 const table = {
 	name: "budget",
 	columns: ["amount", "type", "concept", "date", "userID"],
@@ -8,13 +12,16 @@ const table = {
 
 const getBudget = (req, res) => {
 	const userID = res.locals.user.id;
-	let { limit, order = "desc", by = "type" } = req.query;
+	let { limit, order = "asc", by = "type" } = req.query;
 	let sql = `SELECT * FROM ${table.name} WHERE userID= ${con.escape(
 		userID
 	)} `;
 
 	if (order) {
-		sql += `ORDER BY ${con.escape(by)} ${con.escape(order)} `;
+		sql += `ORDER BY ${escapeSansQuotes(con, by)} ${escapeSansQuotes(
+			con,
+			order
+		)} `;
 	}
 
 	if (limit) {

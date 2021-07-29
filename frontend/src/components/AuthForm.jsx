@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import styles from "../css/AuthForm.module.css";
 
 const AuthForm = ({
 	Schema,
@@ -19,11 +19,14 @@ const AuthForm = ({
 					handleSubmit(values, actions, initialValues)
 				}
 			>
-				<Form>
+				<Form className={styles.authForm}>
 					{inputs.map((input) => {
 						const { name, type, id } = input;
 						return (
-							<Fragment key={name}>
+							<div
+								key={name}
+								className={styles["authForm__input-container"]}
+							>
 								<label htmlFor={id}>{name}</label>
 								<Field
 									name={id}
@@ -31,8 +34,12 @@ const AuthForm = ({
 									placeholder={name}
 									id={id}
 								/>
-								<ErrorMessage name={id} />
-							</Fragment>
+								<ErrorMessage
+									name={id}
+									component="span"
+									className={styles.error}
+								/>
+							</div>
 						);
 					})}
 					<button type="submit">{submitText}</button>

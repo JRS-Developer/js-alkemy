@@ -5,10 +5,12 @@ import BudgetList from "./BudgetList";
 import styles from "../css/Budget.module.css";
 import { useAppContext } from "../Context";
 import { handleTokenError } from "./handlers";
+import { Link } from "react-router-dom";
 
 const Budget = () => {
 	const [total, setTotal] = useState(0);
-	const { getOperations, checkUserLogged, authToken } = useAppContext();
+	const { operations, getOperations, checkUserLogged, authToken } =
+		useAppContext();
 
 	const fetchTotal = useCallback(async () => {
 		try {
@@ -44,6 +46,14 @@ const Budget = () => {
 			<h2>Actual balance: {total}$</h2>
 			<h3>Last 10 operations</h3>
 			<BudgetList />
+			{!Array.isArray(operations) && (
+				<p>
+					Add an operation at the{" "}
+					<Link to="/operations">
+						<b>Operations Page</b>
+					</Link>
+				</p>
+			)}
 		</section>
 	);
 };
