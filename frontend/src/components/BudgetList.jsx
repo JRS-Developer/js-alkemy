@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import BudgetItem from "./BudgetItem";
 import styles from "../css/BudgetList.module.css";
 import BudgetListHeader from "./BudgetListHeader";
-import { useOperationContext } from "../Context";
+import { useAppContext } from "../Context";
 
 const BudgetList = ({ editable = false }) => {
-	const { operations, isLoading, setIsLoading } = useOperationContext();
+	const { operations, isLoading, setIsLoading } = useAppContext();
 
 	useEffect(() => {
 		if (Array.isArray(operations) && isLoading) {

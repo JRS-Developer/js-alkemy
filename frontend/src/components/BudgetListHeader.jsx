@@ -1,6 +1,6 @@
 import React from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { useOperationContext } from "../Context";
+import { useAppContext } from "../Context";
 import styles from "../css/BudgetListHeader.module.css";
 
 const sectionsList = [
@@ -11,7 +11,7 @@ const sectionsList = [
 ];
 
 const BudgetListHeader = ({ editable }) => {
-	const { filter, setFilter } = useOperationContext();
+	const { filter, setFilter } = useAppContext();
 
 	const changeOrder = (id) => {
 		const { order } = filter;

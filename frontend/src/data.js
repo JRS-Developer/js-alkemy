@@ -1,5 +1,7 @@
 import Budget from "./components/Budget";
 import Operations from "./components/Operations";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 const Links = [
 	{
@@ -11,6 +13,19 @@ const Links = [
 		name: "Operations",
 		path: "/operations",
 		component: Operations,
+	},
+];
+
+const AuthLinks = [
+	{
+		name: "Login",
+		path: "/login",
+		component: Login,
+	},
+	{
+		name: "Register",
+		path: "/register",
+		component: Register,
 	},
 ];
 
@@ -27,6 +42,7 @@ const inputs = [
 	},
 ];
 
-const URI = "https://sheltered-plains-98989.herokuapp.com/api";
+// const URI = "https://sheltered-plains-98989.herokuapp.com/api";
+const URI = "http://localhost:4000/api";
 
-export { Links, URI, inputs };
+export { Links, AuthLinks, URI, inputs };

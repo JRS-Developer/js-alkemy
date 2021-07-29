@@ -32,7 +32,7 @@ const authUser = async (req, res) => {
 				message: "There is not any user registered with that email",
 			});
 
-		const { password: hashPassword } = rows[0];
+		const { password: hashPassword, userID } = rows[0];
 		const match = await checkUserPassword(password, hashPassword);
 
 		return match
@@ -40,6 +40,7 @@ const authUser = async (req, res) => {
 					email: lowerEmail,
 					password: hashPassword,
 					token: createToken({
+						id: userID,
 						email: lowerEmail,
 						password: hashPassword,
 					}),
@@ -52,13 +53,13 @@ const authUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-	const { email, password, password2 } = req.body;
+	const { email, password, confirmPassword } = req.body;
 
-	if (!email || !password || !password2) {
+	if (!email || !password || !confirmPassword) {
 		return res.status(401).send("Please provide all the credentials");
 	}
 
-	if (password !== password2) {
+	if (password !== confirmPassword) {
 		return res.status(401).json({ message: "The password must match" });
 	}
 

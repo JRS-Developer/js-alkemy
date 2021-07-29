@@ -2,12 +2,17 @@ import OperationForm from "./OperationForm";
 import BudgetList from "./BudgetList";
 import styles from "../css/Operations.module.css";
 import { useEffect } from "react";
-import { useOperationContext } from "../Context";
+import { useAppContext } from "../Context";
+
 const Operations = () => {
-	const { getOperations } = useOperationContext();
+	const { getOperations, checkUserLogged } = useAppContext();
+
 	useEffect(() => {
-		getOperations();
-	}, [getOperations]);
+		if (checkUserLogged()) {
+			getOperations();
+		}
+	}, [getOperations, checkUserLogged]);
+
 	return (
 		<div className={styles.operations}>
 			<OperationForm />

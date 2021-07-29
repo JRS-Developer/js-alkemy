@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { handleError } from "./handlers";
 import styles from "../css/BudgetItem.module.css";
 import { FiEdit, FiDelete, FiSave } from "react-icons/fi";
-import { useOperationContext } from "../Context";
+import { useAppContext } from "../Context";
 
 const BudgetItem = ({
 	operation: { id, concept, amount, type, date },
@@ -16,7 +16,7 @@ const BudgetItem = ({
 }) => {
 	const [startDate, setStartDate] = useState(new Date(date));
 	const [isEditing, setIsEditing] = useState(false);
-	const { getOperations } = useOperationContext();
+	const { getOperations, authToken } = useAppContext();
 	const conceptRef = useRef(null);
 	const amountRef = useRef(null);
 
@@ -26,7 +26,11 @@ const BudgetItem = ({
 
 	const deleteItem = async () => {
 		try {
-			await axios.delete(`${URI}/budget/${id}`);
+			await axios.delete(`${URI}/budget/${id}`, {
+				params: {
+					token: authToken,
+				},
+			});
 			toast.success("Operation deleted correctly");
 			getOperations();
 		} catch (error) {
@@ -44,7 +48,11 @@ const BudgetItem = ({
 		};
 
 		try {
-			await axios.put(`${URI}/budget/${id}`, data);
+			await axios.put(`${URI}/budget/${id}`, data, {
+				params: {
+					token: authToken,
+				},
+			});
 			toast.success("Operation edited correctly");
 			getOperations();
 			setIsEditing(false);

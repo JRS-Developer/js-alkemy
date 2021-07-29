@@ -3,15 +3,18 @@ const { handleError } = require("../handlers");
 
 const table = {
 	name: "budget",
-	columns: ["amount", "type", "concept", "date"],
+	columns: ["amount", "type", "concept", "date", "userID"],
 };
 
 const getBudget = (req, res) => {
+	const userID = res.locals.user.id;
 	let { limit, order = "desc", by = "type" } = req.query;
-	let sql = `SELECT * FROM ${table.name} `;
+	let sql = `SELECT * FROM ${table.name} WHERE userID= ${con.escape(
+		userID
+	)} `;
 
 	if (order) {
-		sql += `ORDER BY ${by} ${order} `;
+		sql += `ORDER BY ${con.escape(by)} ${con.escape(order)} `;
 	}
 
 	if (limit) {
@@ -33,8 +36,9 @@ const getBudget = (req, res) => {
 };
 
 const getBudgetTotal = (_req, res) => {
-	const sql = `SELECT SUM(amount) FROM ${table.name}`;
-	con.query(sql, (error, results) => {
+	const userID = res.locals.user.id;
+	const sql = `SELECT SUM(amount) FROM ${table.name} WHERE userID = ?`;
+	con.query(sql, [userID], (error, results) => {
 		if (error) {
 			handleError(res, error);
 			return;
@@ -50,14 +54,15 @@ const getBudgetTotal = (_req, res) => {
 
 const insertBudget = (req, res) => {
 	const { type, concept, date } = req.body;
+	const userID = res.locals.user.id;
 	let { amount } = req.body;
 
 	if (type === "expense" && amount > 0) {
 		amount *= -1;
 	}
 
-	const sql = `INSERT INTO ${table.name} (${table.columns}) VALUES (?,?,?,?)`;
-	con.query(sql, [amount, type, concept, date], (error) => {
+	const sql = `INSERT INTO ${table.name} (${table.columns}) VALUES (?,?,?,?,?)`;
+	con.query(sql, [amount, type, concept, date, userID], (error) => {
 		if (error) {
 			handleError(res, error);
 			return;
